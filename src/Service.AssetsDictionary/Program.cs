@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Service.AssetsDictionary.SDK;
+using MyJetWallet.Sdk.Service;
 using Service.AssetsDictionary.Settings;
 using SimpleTrading.SettingsReader;
 
