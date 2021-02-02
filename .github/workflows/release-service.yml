@@ -2,7 +2,7 @@ name: Release Service
 
 on:
   push:
-    tags: "service-*"
+    tags: "1-*"
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       with:
         dotnet-version: 5.0.101
     - name: Build
-      run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/service-}
+      run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/}
     - name: Test
       run: dotnet test --no-build --configuration Release
 
@@ -34,5 +34,5 @@ jobs:
         path: ./publish-api
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary
-        tags: ${{GITHUB_REF#refs/tags/service-}}
+        tag_with_ref: true
 
