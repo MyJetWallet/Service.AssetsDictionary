@@ -34,5 +34,5 @@ jobs:
         path: ./publish-api
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary
-        tags: ${{ GITHUB_REF#refs/tags/service- }}
+        tags: ${{GITHUB_REF#refs/tags/service-}}
 
