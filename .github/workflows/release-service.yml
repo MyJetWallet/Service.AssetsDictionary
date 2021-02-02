@@ -1,9 +1,8 @@
-name: CI test build
+name: Release Service
 
 on:
   push:
-      branches:
-        - master
+    tags: "service-*"
 
 jobs:
   build:
@@ -17,18 +16,16 @@ jobs:
       with:
         dotnet-version: 5.2.103
     - name: Build
-      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.0
+      run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/service-}
     - name: Test
       run: dotnet test --no-build --configuration Release
-    - name: ls
-      run: ls
 
-    - name: Publish Service
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
+    - name: Publish API
+      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release ./publish-api
 
-    - name: Check Service dir
+    - name: Check API dir
       run: ls ./publish-api
-      
+
     - name: Publish image
       uses: docker/build-push-action@v1
       with:
@@ -37,5 +34,5 @@ jobs:
         path: ./publish-api
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary
-        tags: latest
+        tags: ${GITHUB_REF#refs/tags/service-}
 

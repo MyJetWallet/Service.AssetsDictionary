@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Grpc.Net.Client;
 using ProtoBuf.Grpc.Client;
-using Service.AssetsDictionary.Domain.Models;
-using Service.AssetsDictionary.Grpc;
+using Service.AssetsDictionary.Client;
 using Service.AssetsDictionary.Grpc.Models;
-using Service.AssetsDictionary.Services;
 
 namespace TestApp
 {
@@ -19,8 +16,8 @@ namespace TestApp
             Console.ReadLine();
 
 
-            var channel = GrpcChannel.ForAddress("http://localhost:5001");
-            var client = channel.CreateGrpcService<IHelloService>();
+            var factory = new AssetsDictionaryClientFactory("http://localhost:5001");
+            var client = factory.GetHelloService();
 
             var resp = await  client.SayHelloAsync(new HelloRequest(){Name = "Alex"});
             Console.WriteLine(resp?.Message);

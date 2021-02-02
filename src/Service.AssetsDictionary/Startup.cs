@@ -43,7 +43,7 @@ namespace Service.AssetsDictionary
 
                 endpoints.MapGet("/api/isalive", async context =>
                 {
-                    await context.Response.WriteAsync($"{{ \"ApplicationName\": \"{ApplicationEnvironment.AppName}\", \"Version\":\"{ApplicationEnvironment.AppVersion}\" }}");
+                    await context.Response.WriteAsync(IsAliveResponse.IsAlive());
                 });
                 endpoints.MapGet("/", async context =>
                 {

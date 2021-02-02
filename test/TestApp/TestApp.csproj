@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Service.AssetsDictionary\Service.AssetsDictionary.csproj" />
+    <ProjectReference Include="..\..\src\Service.AssetsDictionary.Client\Service.AssetsDictionary.Client.csproj" />
+    <ProjectReference Include="..\..\src\Service.AssetsDictionary.Grpc\Service.AssetsDictionary.Grpc.csproj" />
   </ItemGroup>
 
 </Project>
