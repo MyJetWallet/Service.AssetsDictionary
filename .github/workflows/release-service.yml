@@ -20,10 +20,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --configuration Release
 
-    - name: Publish Service
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
+    - name: Publish API
+      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release ./publish-api
 
-    - name: Check Service dir
+    - name: Check API dir
       run: ls ./publish-api
 
     - name: Publish image
@@ -34,5 +34,5 @@ jobs:
         path: ./publish-api
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary
-        tags: ${GITHUB_REF#refs/tags/service-}
+        tags: ${{ GITHUB_REF#refs/tags/service- }}
 
