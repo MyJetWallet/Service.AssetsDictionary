@@ -20,10 +20,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --configuration Release
 
-    - name: Publish API
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release ./publish-api
+    - name: Publish Service
+      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
 
-    - name: Check API dir
+    - name: Check Service dir
       run: ls ./publish-api
 
     - name: Publish image
