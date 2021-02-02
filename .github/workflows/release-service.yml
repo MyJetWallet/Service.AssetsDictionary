@@ -19,13 +19,15 @@ jobs:
       run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/}
     - name: Test
       run: dotnet test --no-build --configuration Release
+    - name: ls
+      run: ls
 
-    - name: Publish API
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release ./publish-api
+    - name: Publish Service
+      run: dotnet publish ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/} --output ./publish-api
 
-    - name: Check API dir
+    - name: Check Service dir
       run: ls ./publish-api
-
+      
     - name: Publish image
       uses: docker/build-push-action@v1
       with:
