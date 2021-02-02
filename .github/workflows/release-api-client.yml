@@ -29,7 +29,5 @@ jobs:
       run: dotnet pack --configuration Release src/Service.AssetsDictionary.Client /p:Version=${GITHUB_REF#refs/tags/client-}
 
     - name: Publish the package to GPR
-      run: dotnet nuget push src/Service.AssetsDictionary.Client/bin/Release/*.nupkg -s "https://nuget.pkg.github.com/myjetwallet/index.json" -k ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push client/Antares.Service.Assets.Client/bin/Release/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_TOCKEN }}
 
-    - name: Push generated package to GitHub registry
-      run: dotnet nuget push src/Service.AssetsDictionary.Client/bin/Release/*.nupkg
