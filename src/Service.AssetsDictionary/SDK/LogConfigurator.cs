@@ -81,20 +81,28 @@ namespace Service.AssetsDictionary.SDK
             if (!string.IsNullOrEmpty(logLevel) && Enum.TryParse<LogEventLevel>(logLevel, out var restrictedToMinimumLevel))
             {
                 var color = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Env - ConsoleOutputLogLevel: {restrictedToMinimumLevel}");
                 Console.ForegroundColor = color;
 
                 config.WriteTo.Console(restrictedToMinimumLevel);
             }
-            else
+            else if (logLevel == "Default")
             {
                 var color = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Env - ConsoleOutputLogLevel: <not specified> (default)");
+                Console.WriteLine($"Env - ConsoleOutputLogLevel: <default>");
                 Console.ForegroundColor = color;
 
                 config.WriteTo.Console();
+            }
+            else
+            {
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Env - ConsoleOutputLogLevel: <not specified> ({logLevel})");
+                Console.WriteLine($"Console log is disabled");
+                Console.ForegroundColor = color;
             }
         }
 
