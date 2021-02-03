@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.AssetsDictionary.Cl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Client", "05. Client", "{EB832FF1-4E01-40ED-BAC4-5ECF70F5C108}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. MyNoSql", "04. MyNoSql", "{19732B9E-2A6D-47B0-8E68-6D564C82D057}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.AssetsDictionary.MyNoSql", "src\Service.AssetsDictionary.MyNoSql\Service.AssetsDictionary.MyNoSql.csproj", "{7AF8618B-FDA4-4878-820C-D68C661266CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{B64315EC-2356-4586-8A89-111D88A942B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B64315EC-2356-4586-8A89-111D88A942B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B64315EC-2356-4586-8A89-111D88A942B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AF8618B-FDA4-4878-820C-D68C661266CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AF8618B-FDA4-4878-820C-D68C661266CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AF8618B-FDA4-4878-820C-D68C661266CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AF8618B-FDA4-4878-820C-D68C661266CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +62,7 @@ Global
 		{A9A2F2A9-1B5B-40D1-8DD2-6C1D776FB6BC} = {446301A0-97F2-4921-BA0B-32B76039C73B}
 		{5FAB1BBA-DE6F-4189-8CF0-D4D77D9C660B} = {446301A0-97F2-4921-BA0B-32B76039C73B}
 		{B64315EC-2356-4586-8A89-111D88A942B8} = {EB832FF1-4E01-40ED-BAC4-5ECF70F5C108}
+		{7AF8618B-FDA4-4878-820C-D68C661266CD} = {19732B9E-2A6D-47B0-8E68-6D564C82D057}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BF00C9D-AD55-40F2-8FE3-E5C3559B3E26}

@@ -7,5 +7,8 @@ namespace Service.AssetsDictionary.Settings
     {
         [YamlProperty("AssetsDictionary.SeqServiceUrl")]
         public string SeqServiceUrl { get; set; }
+
+        [YamlProperty("AssetsDictionary.MyNoSqlWriterUrl")]
+        public string MyNoSqlWriterUrl { get; set; }
     }
 }

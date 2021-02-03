@@ -15,6 +15,7 @@ namespace Service.AssetsDictionary.Client
             _channel = GrpcChannel.ForAddress("http://localhost:5001");
         }
 
-        public IHelloService GetHelloService() => _channel.CreateGrpcService<IHelloService>();
+        public IAssetsDictionaryService GetAssetsDictionaryService() => _channel.CreateGrpcService<IAssetsDictionaryService>();
+        public ISpotInstrumentsDictionaryService GetSpotInstrumentsDictionaryService() => _channel.CreateGrpcService<ISpotInstrumentsDictionaryService>();
     }
 }
