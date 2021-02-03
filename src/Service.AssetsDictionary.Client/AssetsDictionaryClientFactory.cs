@@ -12,7 +12,7 @@ namespace Service.AssetsDictionary.Client
 
         public AssetsDictionaryClientFactory(string assetsDictionaryGrpcServiceUrl)
         {
-            _channel = GrpcChannel.ForAddress("http://localhost:5001");
+            _channel = GrpcChannel.ForAddress(assetsDictionaryGrpcServiceUrl);
         }
 
         public IAssetsDictionaryService GetAssetsDictionaryService() => _channel.CreateGrpcService<IAssetsDictionaryService>();

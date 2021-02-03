@@ -21,7 +21,7 @@ namespace TestApp
             Console.ReadLine();
 
 
-            var factory = new AssetsDictionaryClientFactory("http://localhost:5001");
+            var factory = new AssetsDictionaryClientFactory("http://localhost:80");
             var client = factory.GetAssetsDictionaryService();
 
             var btc = await  client.GetAssetByIdAsync(new AssetIdentity(){BrokerId = "test", Symbol = "BTC"});
