@@ -19,6 +19,8 @@
     <PackageReference Include="SimpleTrading.SettingsReader" Version="1.1.0" />
     <PackageReference Include="SimpleTrading.BaseMetrics" Version="1.0.3" />
     <PackageReference Include="SimpleTrading.ServiceStatusReporterConnector" Version="1.0.6" />
+
+    <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.0.147" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="bcl.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
