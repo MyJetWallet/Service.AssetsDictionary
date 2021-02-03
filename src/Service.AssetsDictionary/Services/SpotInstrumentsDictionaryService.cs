@@ -16,19 +16,34 @@ namespace Service.AssetsDictionary.Services
     {
         private readonly IMyNoSqlServerDataWriter<SpotInstrumentNoSqlEntity> _writer;
         private readonly ILogger<SpotInstrumentsDictionaryService> _logger;
+        private readonly IAssetsDictionaryService _assetsDictionary;
 
         public SpotInstrumentsDictionaryService(
             IMyNoSqlServerDataWriter<SpotInstrumentNoSqlEntity> writer,
-            ILogger<SpotInstrumentsDictionaryService> logger)
+            ILogger<SpotInstrumentsDictionaryService> logger,
+            IAssetsDictionaryService assetsDictionary)
         {
             _writer = writer;
             _logger = logger;
+            _assetsDictionary = assetsDictionary;
         }
 
         public async Task<SpotInstrument> CreateSpotInstrumentAsync(SpotInstrument instrument)
         {
             if (string.IsNullOrEmpty(instrument.BrokerId)) _logger.ThrowValidationError("Cannot create instrument. BrokerId cannot be empty");
             if (string.IsNullOrEmpty(instrument.Symbol)) _logger.ThrowValidationError("Cannot create instrument. Symbol cannot be empty");
+
+            var baseAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.BaseAsset });
+            var quoteAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.QuoteAsset });
+
+            if (!baseAsset.HasValue()) _logger.ThrowValidationError("Cannot create instrument. BaseAsset do not found");
+            if (!quoteAsset.HasValue()) _logger.ThrowValidationError("Cannot create instrument. QuoteAsset do not found");
+
+            if (instrument.IsEnabled)
+            {
+                if (!baseAsset.Value.IsEnabled) _logger.ThrowValidationError("Cannot create instrument. BaseAsset is disabled");
+                if (!quoteAsset.Value.IsEnabled) _logger.ThrowValidationError("Cannot create instrument. QuoteAsset is disabled");
+            }
 
             var entity = SpotInstrumentNoSqlEntity.Create(instrument);
             entity.MatchingEngineId = $"{instrument.BrokerId}::{instrument.Symbol}";
@@ -40,6 +55,8 @@ namespace Service.AssetsDictionary.Services
             }
 
             await _writer.InsertAsync(entity);
+
+            _logger.LogInformation("Spot instrument is created. BrokerId: {brokerId}, Symbol: {symbol}", entity.BrokerId, entity.Symbol);
 
             return SpotInstrument.Create(entity);
         }
@@ -56,31 +73,50 @@ namespace Service.AssetsDictionary.Services
                 throw new Exception();
             }
 
-            if (!instrument.IsEnabled && entity.IsEnabled)
+            var baseAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.BaseAsset });
+            var quoteAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.QuoteAsset });
+
+            if (!baseAsset.HasValue()) _logger.ThrowValidationError("Cannot create instrument. BaseAsset do not found");
+            if (!quoteAsset.HasValue()) _logger.ThrowValidationError("Cannot create instrument. QuoteAsset do not found");
+
+            if (instrument.IsEnabled)
             {
-                //todo: validate what asset can be disabled ... do not used in active pairs
+                if (!baseAsset.Value.IsEnabled) _logger.ThrowValidationError("Cannot create instrument. BaseAsset is disabled");
+                if (!quoteAsset.Value.IsEnabled) _logger.ThrowValidationError("Cannot create instrument. QuoteAsset is disabled");
             }
 
             entity.Apply(instrument);
 
             await _writer.InsertOrReplaceAsync(entity);
 
+            _logger.LogInformation("Spot instrument is updated. BrokerId: {brokerId}, Symbol: {symbol}", entity.BrokerId, entity.Symbol);
+
             return SpotInstrument.Create(entity);
         }
 
-        public Task<SpotInstrument> GetSpotInstrumentByIdAsync(SpotInstrumentIdentity assetId)
+        public async Task<NullableValue<SpotInstrument>> GetSpotInstrumentByIdAsync(SpotInstrumentIdentity assetId)
         {
-            throw new System.NotImplementedException();
+            var entity = await ReadInstrument(SpotInstrumentNoSqlEntity.GeneratePartitionKey(assetId.BrokerId), SpotInstrumentNoSqlEntity.GenerateRowKey(assetId.Symbol));
+
+            if (entity == null)
+                return new NullableValue<SpotInstrument>();
+
+            return new NullableValue<SpotInstrument>(SpotInstrument.Create(entity));
         }
 
-        public Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrokerAsync(JetBrokerIdentity brokerId)
+        public async Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrokerAsync(JetBrokerIdentity brokerId)
         {
-            throw new System.NotImplementedException();
+            var list = await _writer.GetAsync(SpotInstrumentNoSqlEntity.GeneratePartitionKey(brokerId.BrokerId));
+            return new SpotInstrumentsListResponse()
+            {
+                SpotInstruments = list.Select(SpotInstrument.Create).ToArray()
+            };
         }
 
         public Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrandAsync(JetBrandIdentity brandId)
         {
             throw new System.NotImplementedException();
+            //todo: implement GetSpotInstrumentsByBrandAsync
         }
 
         public async Task<SpotInstrumentsListResponse> GetAllSpotInstrumentsAsync()

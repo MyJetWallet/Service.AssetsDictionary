@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
+using Service.AssetsDictionary.Grpc;
+using Service.AssetsDictionary.Services;
 
 namespace Service.AssetsDictionary.Modules
 {
@@ -8,7 +10,11 @@ namespace Service.AssetsDictionary.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
+            builder.RegisterType<AssetsDictionaryService>()
+                .As<IAssetsDictionaryService>();
+
+            builder.RegisterType<SpotInstrumentsDictionaryService>()
+                .As<ISpotInstrumentsDictionaryService>();
         }
     }
 }

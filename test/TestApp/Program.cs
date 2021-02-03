@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyJetWallet.Domain.Assets;
 using ProtoBuf.Grpc.Client;
+using ProtoBuf.Grpc.Reflection;
 using Service.AssetsDictionary.Client;
 using Service.AssetsDictionary.Domain.Models;
+using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Grpc.Models;
 
 namespace TestApp
@@ -72,7 +74,7 @@ namespace TestApp
             //    MaxVolume = 10.45m,
             //    MinVolume = 0.0001m,
             //    BaseAsset = "BTC",
-            //    QuotingAsset = "USD",
+            //    QuoteAsset = "USD",
             //    MarketOrderPriceThreshold = 0.2m
             //});
 
@@ -83,6 +85,14 @@ namespace TestApp
             {
                 Console.WriteLine($"{instrument.BrokerId}: {instrument.Symbol} [{instrument.IsEnabled}] MaxVolume: {instrument.MaxVolume}");
             }
+
+
+            Console.WriteLine();
+            var generator = new SchemaGenerator();
+            var schema = generator.GetSchema<ISpotInstrumentsDictionaryService>();
+            Console.WriteLine(schema);
+            Console.WriteLine();
+            Console.WriteLine();
 
             Console.WriteLine("End");
             Console.ReadLine();

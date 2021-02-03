@@ -41,6 +41,8 @@ namespace Service.AssetsDictionary.Services
 
             await _writer.InsertAsync(entity);
 
+            _logger.LogInformation("Asset is created. BrokerId: {brokerId}, Symbol: {symbol}", entity.BrokerId, entity.Symbol);
+
             return Asset.Create(entity);
         }
 
@@ -64,6 +66,8 @@ namespace Service.AssetsDictionary.Services
             entity.Apply(asset);
 
             await _writer.InsertOrReplaceAsync(entity);
+
+            _logger.LogInformation("Asset is updated. BrokerId: {brokerId}, Symbol: {symbol}", entity.BrokerId, entity.Symbol);
 
             return Asset.Create(entity);
         }

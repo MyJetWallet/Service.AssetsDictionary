@@ -13,7 +13,7 @@ namespace Service.AssetsDictionary.Grpc
         [OperationContract] Task<SpotInstrument> CreateSpotInstrumentAsync(SpotInstrument instrument);
         [OperationContract] Task<SpotInstrument> UpdateSpotInstrumentAsync(SpotInstrument instrument);
 
-        [OperationContract] Task<SpotInstrument> GetSpotInstrumentByIdAsync(SpotInstrumentIdentity assetId);
+        [OperationContract] Task<NullableValue<SpotInstrument>> GetSpotInstrumentByIdAsync(SpotInstrumentIdentity assetId);
         [OperationContract] Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrokerAsync(JetBrokerIdentity brokerId);
         [OperationContract] Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrandAsync(JetBrandIdentity brandId);
         [OperationContract] Task<SpotInstrumentsListResponse> GetAllSpotInstrumentsAsync();

@@ -8,7 +8,7 @@ namespace Service.AssetsDictionary.Domain.Models
     {
         string BaseAsset { get; }
         
-        string QuotingAsset { get; }
+        string QuoteAsset { get; }
         
         int Accuracy { get; }
         
@@ -31,7 +31,7 @@ namespace Service.AssetsDictionary.Domain.Models
         [DataMember(Order = 1)] public string BrokerId { get; set; }
         [DataMember(Order = 2)] public string Symbol { get; set; }
         [DataMember(Order = 3)] public string BaseAsset { get; set; }
-        [DataMember(Order = 4)] public string QuotingAsset { get; set; }
+        [DataMember(Order = 4)] public string QuoteAsset { get; set; }
         [DataMember(Order = 5)] public int Accuracy { get; set; }
         [DataMember(Order = 6)] public decimal MinVolume { get; set; }
         [DataMember(Order = 7)] public decimal MaxVolume { get; set; }
@@ -47,7 +47,7 @@ namespace Service.AssetsDictionary.Domain.Models
                 BrokerId = instrument.BrokerId,
                 Symbol = instrument.Symbol,
                 BaseAsset = instrument.BaseAsset,
-                QuotingAsset = instrument.QuotingAsset,
+                QuoteAsset = instrument.QuoteAsset,
                 Accuracy = instrument.Accuracy,
                 MaxVolume = instrument.MaxVolume,
                 MinVolume = instrument.MinVolume,

@@ -23,7 +23,7 @@ namespace Service.AssetsDictionary.MyNoSql
         public string BrokerId { get; set; }
         public string Symbol { get; set; }
         public string BaseAsset { get; set; }
-        public string QuotingAsset { get; set; }
+        public string QuoteAsset { get; set; }
         public int Accuracy { get; set; }
         public decimal MinVolume { get; set; }
         public decimal MaxVolume { get; set; }
@@ -36,7 +36,7 @@ namespace Service.AssetsDictionary.MyNoSql
         {
             Accuracy = instrument.Accuracy;
             BaseAsset = instrument.BaseAsset;
-            QuotingAsset = instrument.QuotingAsset;
+            QuoteAsset = instrument.QuoteAsset;
             IsEnabled = instrument.IsEnabled;
             MarketOrderPriceThreshold = instrument.MarketOrderPriceThreshold;
             MaxOppositeVolume = instrument.MaxOppositeVolume;
