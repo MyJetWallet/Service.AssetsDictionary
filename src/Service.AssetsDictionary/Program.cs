@@ -53,8 +53,6 @@ namespace Service.AssetsDictionary
                         options.Listen(IPAddress.Any, 80, o => o.Protocols = HttpProtocols.Http2);
                     });
 
-                    webBuilder.UseUrls("http://*:8080", "http://*:80");
-
                     webBuilder.UseStartup<Startup>();
                 })
                 .ConfigureServices(services =>
