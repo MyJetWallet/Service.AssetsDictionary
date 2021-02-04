@@ -6,4 +6,4 @@
 
 ![CI test build](https://github.com/MyJetWallet/Service.AssetsDictionary/workflows/CI%20test%20build/badge.svg)
 
-*Client library:* ![Nuget version](https://img.shields.io/nuget/v/MyJetWallet.Service.AssetsDictionary.Client?label=MyJetWallet.Service.AssetsDictionary.Client&style=social)
+**Client library:** ![Nuget version](https://img.shields.io/nuget/v/MyJetWallet.Service.AssetsDictionary.Client?label=MyJetWallet.Service.AssetsDictionary.Client&style=social)
