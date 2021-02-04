@@ -6,7 +6,7 @@ namespace Service.AssetsDictionary.MyNoSql
 {
     public class AssetNoSqlEntity: MyNoSqlDbEntity, IAsset
     {
-        public const string TableName = "myjetwallet.dictionary.assets";
+        public const string TableName = "myjetwallet-dictionary-assets";
 
         public static string GeneratePartitionKey(string brokerId) => $"broker:{brokerId}";
         public static string GenerateRowKey(string assetSymbol) => assetSymbol;

@@ -16,7 +16,6 @@ namespace Service.AssetsDictionary.Grpc
         
         [OperationContract] ValueTask<NullableValue<Asset>> GetAssetByIdAsync(AssetIdentity assetId);
         [OperationContract] ValueTask<AssetsListResponse> GetAssetsByBrokerAsync(JetBrokerIdentity brokerId);
-        [OperationContract] ValueTask<AssetsListResponse> GetAssetsByBrandAsync(JetBrandIdentity brandId);
         [OperationContract] ValueTask<AssetsListResponse> GetAllAssetsAsync();
     }
 }

@@ -108,12 +108,6 @@ namespace Service.AssetsDictionary.Services
             return response;
         }
 
-        public ValueTask<AssetsListResponse> GetAssetsByBrandAsync(JetBrandIdentity brandId)
-        {
-            //todo: implement GetAssetsByBrandAsync
-            throw new System.NotImplementedException();
-        }
-
         public async ValueTask<AssetsListResponse> GetAllAssetsAsync()
         {
             var entities = await _writer.GetAsync();

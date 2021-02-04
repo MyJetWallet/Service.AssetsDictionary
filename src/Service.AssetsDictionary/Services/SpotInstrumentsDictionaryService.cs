@@ -113,12 +113,6 @@ namespace Service.AssetsDictionary.Services
             };
         }
 
-        public Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrandAsync(JetBrandIdentity brandId)
-        {
-            throw new System.NotImplementedException();
-            //todo: implement GetSpotInstrumentsByBrandAsync
-        }
-
         public async Task<SpotInstrumentsListResponse> GetAllSpotInstrumentsAsync()
         {
             var entities = await _writer.GetAsync();

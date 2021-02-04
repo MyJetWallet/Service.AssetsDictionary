@@ -5,7 +5,7 @@ namespace Service.AssetsDictionary.MyNoSql
 {
     public class SpotInstrumentNoSqlEntity : MyNoSqlDbEntity, ISpotInstrument
     {
-        public const string TableName = "myjetwallet.dictionary.spot-instruments";
+        public const string TableName = "myjetwallet-dictionary-spot-instruments";
 
         public static string GeneratePartitionKey(string brokerId) => $"broker:{brokerId}";
         public static string GenerateRowKey(string instrumentSymbol) => instrumentSymbol;
@@ -20,6 +20,7 @@ namespace Service.AssetsDictionary.MyNoSql
                 Symbol = instrument.Symbol,
             }.Apply(instrument);
         }
+
         public string BrokerId { get; set; }
         public string Symbol { get; set; }
         public string BaseAsset { get; set; }

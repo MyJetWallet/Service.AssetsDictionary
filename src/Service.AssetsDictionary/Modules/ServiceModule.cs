@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Autofac.Core;
-using Autofac.Core.Registration;
 using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Services;
 
@@ -15,6 +13,9 @@ namespace Service.AssetsDictionary.Modules
 
             builder.RegisterType<SpotInstrumentsDictionaryService>()
                 .As<ISpotInstrumentsDictionaryService>();
+
+            builder.RegisterType<BrandAssetsAndInstrumentsService>()
+                .As<IBrandAssetsAndInstrumentsService>();
         }
     }
 }

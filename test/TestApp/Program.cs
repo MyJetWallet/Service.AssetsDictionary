@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using MyJetWallet.Domain;
 using MyJetWallet.Domain.Assets;
 using ProtoBuf.Grpc.Client;
 using ProtoBuf.Grpc.Reflection;
-using Service.AssetsDictionary.Client;
+using Service.AssetsDictionary.Client.Grpc;
 using Service.AssetsDictionary.Domain.Models;
 using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Grpc.Models;
@@ -22,6 +22,27 @@ namespace TestApp
 
 
             var factory = new AssetsDictionaryClientFactory("http://localhost:80");
+
+
+
+            var brandClient = factory.GetBrandAssetsAndInstrumentsService();
+            await brandClient.AddAssetAsync(new AssetIdBrandIdRequest(
+                new AssetIdentity() {BrokerId = "test", Symbol = "BTC"},
+                new JetBrandIdentity() {BrokerId = "test", BrandId = "hello"}));
+
+            var assetsInBrand = await brandClient.GetAllAssetsByBrandAsync(new JetBrandIdentity(){BrokerId = "test", BrandId = "hello"});
+            Console.WriteLine("assets in brand 'test':");
+            foreach (var asset in assetsInBrand.Assets)
+            {
+                Console.WriteLine($" * {asset.Symbol}");
+            }
+
+            Console.WriteLine();
+
+
+
+
+
             var client = factory.GetAssetsDictionaryService();
 
             var btc = await  client.GetAssetByIdAsync(new AssetIdentity(){BrokerId = "test", Symbol = "BTC"});

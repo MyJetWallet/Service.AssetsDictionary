@@ -18,6 +18,7 @@ namespace Service.AssetsDictionary.Modules
         {
             RegisterMyNoSqlWriter<AssetNoSqlEntity>(builder, AssetNoSqlEntity.TableName);
             RegisterMyNoSqlWriter<SpotInstrumentNoSqlEntity>(builder, SpotInstrumentNoSqlEntity.TableName);
+            RegisterMyNoSqlWriter<BrandAssetsAndInstrumentsNoSqlEntity>(builder, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
         }
 
         private void RegisterMyNoSqlWriter<TEntity>(ContainerBuilder builder, string table)
