@@ -37,7 +37,7 @@ namespace Service.AssetsDictionary.Domain.Models
         [DataMember(Order = 7)] public decimal MaxVolume { get; set; }
         [DataMember(Order = 8)] public decimal MaxOppositeVolume { get; set; }
         [DataMember(Order = 9)] public decimal MarketOrderPriceThreshold { get; set; }
-        [DataMember(Order = 10)] public bool IsEnabled { get; }
+        [DataMember(Order = 10)] public bool IsEnabled { get; set; }
         [DataMember(Order = 11)] public string MatchingEngineId { get; set; }
 
         public static SpotInstrument Create(ISpotInstrument instrument)
@@ -53,7 +53,8 @@ namespace Service.AssetsDictionary.Domain.Models
                 MinVolume = instrument.MinVolume,
                 MaxOppositeVolume = instrument.MaxOppositeVolume,
                 MarketOrderPriceThreshold = instrument.MarketOrderPriceThreshold,
-                MatchingEngineId = instrument.MatchingEngineId
+                MatchingEngineId = instrument.MatchingEngineId,
+                IsEnabled = instrument.IsEnabled
             };
         }
     }
