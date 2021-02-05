@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="proto\DictionariesGrpc.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.35.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="MyJetWallet.Domain" Version="1.0.4" />
+    <PackageReference Include="MyJetWallet.Domain" Version="1.0.5" />
     <PackageReference Include="MyJetWallet.Sdk.GrpcMetrics" Version="1.0.0" />
     <PackageReference Include="MyJetWallet.Sdk.GrpcSchema" Version="1.0.3" />
     <PackageReference Include="MyJetWallet.Sdk.Service" Version="1.0.3" />
@@ -21,12 +29,16 @@
     <PackageReference Include="SimpleTrading.BaseMetrics" Version="1.0.3" />
     <PackageReference Include="SimpleTrading.ServiceStatusReporterConnector" Version="1.0.6" />
 
-    <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.0.147" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Service.AssetsDictionary.Grpc\Service.AssetsDictionary.Grpc.csproj" />
     <ProjectReference Include="..\Service.AssetsDictionary.MyNoSql\Service.AssetsDictionary.MyNoSql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="proto\DictionariesGrpc.proto" GrpcServices="Both" />
   </ItemGroup>
 
   <ItemGroup>

@@ -28,6 +28,12 @@ namespace Service.AssetsDictionary
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddGrpc(options =>
+            {
+                options.Interceptors.Add<PrometheusMetricsInterceptor>();
+                options.BindMetricsInterceptors();
+            });
+
             services.AddCodeFirstGrpc(options =>
             {
                 options.Interceptors.Add<PrometheusMetricsInterceptor>();
@@ -52,6 +58,9 @@ namespace Service.AssetsDictionary
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<AssetsService>();
+                endpoints.MapGrpcService<AssetPairsService>();
+
                 endpoints.MapGrpcSchema<AssetsDictionaryService, IAssetsDictionaryService>();
                 endpoints.MapGrpcSchema<SpotInstrumentsDictionaryService, ISpotInstrumentsDictionaryService>();
                 endpoints.MapGrpcSchema<BrandAssetsAndInstrumentsService, IBrandAssetsAndInstrumentsService>();
