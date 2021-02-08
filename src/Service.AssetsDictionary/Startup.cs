@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +38,8 @@ namespace Service.AssetsDictionary
                 options.Interceptors.Add<PrometheusMetricsInterceptor>();
                 options.BindMetricsInterceptors();
             });
+
+            services.AddHostedService<ApplicationLifetimeManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
