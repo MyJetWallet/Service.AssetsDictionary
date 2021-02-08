@@ -36,13 +36,13 @@ jobs:
         format: YYYY-MM-DD HH:mm:ss
         utcOffset: "+00:00"
         
-    - name: Use current time
-      env:
-        TIME: "${{ steps.current-time.outputs.time }}"
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-      run: |
-        echo $TIME
-        echo $F_TIME
+    - name: Generate build number
+      uses: einaregilsson/build-number@v3
+      id: buildnumber
+      with:
+        token: ${{secrets.github_token}}        
+    - name: Print new build number
+      run: echo "Build number is {{ steps.buildnumber.outputs.build_number }}
       
     - name: Publish image
       uses: docker/build-push-action@v1
