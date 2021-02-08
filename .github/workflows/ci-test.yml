@@ -42,4 +42,3 @@ jobs:
         build_args: |
           app_version=1.2.3
           app_compilation_date=2021-02-08T11:00:00
-
