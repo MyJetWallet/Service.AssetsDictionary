@@ -29,6 +29,21 @@ jobs:
     - name: Check Service dir
       run: ls ./publish-api
       
+    - name: Get current time
+      uses: MyJetTools/get-current-time@v2
+      id: current-time
+      with:
+        format: YYYY-MM-DD HH:mm:ss
+        utcOffset: "+00:00"
+        
+    - name: Use current time
+      env:
+        TIME: "${{ steps.current-time.outputs.time }}"
+        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+      run: |
+        echo $TIME
+        echo $F_TIME
+      
     - name: Publish image
       uses: docker/build-push-action@v1
       with:
@@ -39,4 +54,4 @@ jobs:
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary-test
         tags: latest
         add_git_labels: true
-        build_args: app_version=myjetwallet.service.assetsdictionary-test:latest,app_compilation_date=2021-02-08T11:00:00
+        build_args: app_version=myjetwallet.service.assetsdictionary-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
