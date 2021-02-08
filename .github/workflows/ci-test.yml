@@ -38,4 +38,6 @@ jobs:
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary-test
         tags: latest
+        add_git_labels: true
+        build_args: arg1=value1,arg2=value2
 
