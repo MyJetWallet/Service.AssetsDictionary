@@ -16,19 +16,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.101
-    - name: Build
-      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.0
-    - name: Test
-      run: dotnet test --no-build --configuration Release
-    - name: ls
-      run: ls
 
-    - name: Publish Service
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
-
-    - name: Check Service dir
-      run: ls ./publish-api
-      
     - name: Get current time
       uses: MyJetTools/get-current-time@v2
       id: current-time
@@ -42,8 +30,21 @@ jobs:
       with:
         token: ${{secrets.github_token}}        
     - name: Print new build number
-      run: echo "Build number is {{ steps.buildnumber.outputs.build_number }}
-      
+      run: echo Build number is {{ steps.buildnumber.outputs.build_number }}
+
+    - name: Build
+      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.{{ steps.buildnumber.outputs.build_number }}
+    - name: Test
+      run: dotnet test --no-build --configuration Release
+    - name: ls
+      run: ls
+
+    - name: Publish Service
+      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
+
+    - name: Check Service dir
+      run: ls ./publish-api
+            
     - name: Publish image
       uses: docker/build-push-action@v1
       with:
