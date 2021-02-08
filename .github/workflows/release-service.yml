@@ -38,6 +38,8 @@ jobs:
       
     - name: Publish image
       uses: docker/build-push-action@v1
+      env:
+        Ver: ${{ GITHUB_REF#refs/tags/ }}
       with:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -45,5 +47,5 @@ jobs:
         registry: docker.pkg.github.com
         repository: ${{ secrets.ORG_NAME }}/service.assetsdictionary/myjetwallet.service.assetsdictionary
         tag_with_ref: true
-        build_args: app_version=myjetwallet.service.assetsdictionary:${{ GITHUB_REF#refs/tags/ }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        build_args: app_version=myjetwallet.service.assetsdictionary:$Ver,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
