@@ -24,7 +24,7 @@ namespace Service.AssetsDictionary.Modules
         private void RegisterMyNoSqlWriter<TEntity>(ContainerBuilder builder, string table)
             where TEntity : IMyNoSqlDbEntity, new()
         {
-            builder.Register(ctx => new MyNoSqlServer.DataWriter.MyNoSqlServerDataWriter<TEntity>(_myNoSqlServerWriterUrl, table))
+            builder.Register(ctx => new MyNoSqlServer.DataWriter.MyNoSqlServerDataWriter<TEntity>(_myNoSqlServerWriterUrl, table,true))
                 .As<IMyNoSqlServerDataWriter<TEntity>>()
                 .SingleInstance();
 
