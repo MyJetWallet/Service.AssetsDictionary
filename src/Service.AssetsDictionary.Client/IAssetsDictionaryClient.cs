@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MyJetWallet.Domain;
 using MyJetWallet.Domain.Assets;
 using Service.AssetsDictionary.Domain.Models;
@@ -11,5 +12,7 @@ namespace Service.AssetsDictionary.Client
         IReadOnlyList<IAsset> GetAssetsByBroker(IJetBrokerIdentity brokerId);
         IReadOnlyList<IAsset> GetAssetsByBrand(IJetBrandIdentity brandId);
         IReadOnlyList<IAsset> GetAllAssets();
+
+        event Action OnChanged;
     }
 }

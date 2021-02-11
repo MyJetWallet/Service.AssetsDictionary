@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using MyJetWallet.Domain;
@@ -15,10 +16,15 @@ namespace Service.AssetsDictionary.Client
         private readonly MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> _readerAssets;
         private readonly MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> _readerInstrumentBrand;
 
+        public event Action OnChanged;
+
         public SpotInstrumentDictionaryClient(MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> readerAssets, MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerInstrumentBrand)
         {
             _readerAssets = readerAssets;
             _readerInstrumentBrand = readerInstrumentBrand;
+
+            _readerAssets.SubscribeToUpdateEvents(list => Changed(), list => Changed());
+            _readerAssets.SubscribeToUpdateEvents(list => Changed(), list => Changed());
         }
 
         public ISpotInstrument GetSpotInstrumentById(ISpotInstrumentIdentity spotInstrumentId)
@@ -46,6 +52,11 @@ namespace Service.AssetsDictionary.Client
         public IReadOnlyList<ISpotInstrument> GetAllSpotInstruments()
         {
             return _readerAssets.Get();
+        }
+
+        private void Changed()
+        {
+            OnChanged?.Invoke();
         }
     }
 }

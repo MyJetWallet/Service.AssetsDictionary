@@ -18,13 +18,18 @@ namespace Service.AssetsDictionary.Client
     public class AssetsDictionaryClient: IAssetsDictionaryClient, IStartable
     {
         private readonly MyNoSqlReadRepository<AssetNoSqlEntity> _readerAssets;
-        private MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> _readerAssetsBrand;
+        private readonly MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> _readerAssetsBrand;
 
         public AssetsDictionaryClient(MyNoSqlReadRepository<AssetNoSqlEntity> readerAssets, MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerAssetsBrand)
         {
             _readerAssets = readerAssets;
             _readerAssetsBrand = readerAssetsBrand;
+
+            _readerAssets.SubscribeToUpdateEvents(list => Changed(), list => Changed());
+            _readerAssetsBrand.SubscribeToUpdateEvents(list => Changed(), list => Changed());
         }
+
+        public event Action OnChanged;
 
         public IAsset GetAssetById(IAssetIdentity assetId)
         {
@@ -71,6 +76,11 @@ namespace Service.AssetsDictionary.Client
             }
             sw.Stop();
             Console.WriteLine($"AssetNoSqlEntity client is started. Wait time: {sw.ElapsedMilliseconds} ms. Counts: {GetAllAssets().Count}");
+        }
+
+        private void Changed()
+        {
+            OnChanged?.Invoke();
         }
     }
 }
