@@ -1,4 +1,4 @@
-# Service.SomeLogic
+# Service.AssetsDictionary
 
 ![Release Service](https://github.com/MyJetWallet/Service.AssetsDictionary/workflows/Release%20Service/badge.svg)
 
