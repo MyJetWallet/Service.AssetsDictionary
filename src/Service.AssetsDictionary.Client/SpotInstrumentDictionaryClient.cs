@@ -15,10 +15,10 @@ namespace Service.AssetsDictionary.Client
         private readonly MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> _readerAssets;
         private readonly MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> _readerInstrumentBrand;
 
-        public SpotInstrumentDictionaryClient(IMyNoSqlSubscriber myNoSqlSubscriber)
+        public SpotInstrumentDictionaryClient(MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> readerAssets, MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerInstrumentBrand)
         {
-            _readerAssets = new MyNoSqlReadRepository<SpotInstrumentNoSqlEntity>(myNoSqlSubscriber, SpotInstrumentNoSqlEntity.TableName);
-            _readerInstrumentBrand = new MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity>(myNoSqlSubscriber, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
+            _readerAssets = readerAssets;
+            _readerInstrumentBrand = readerInstrumentBrand;
         }
 
         public ISpotInstrument GetSpotInstrumentById(ISpotInstrumentIdentity spotInstrumentId)

@@ -20,10 +20,10 @@ namespace Service.AssetsDictionary.Client
         private readonly MyNoSqlReadRepository<AssetNoSqlEntity> _readerAssets;
         private MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> _readerAssetsBrand;
 
-        public AssetsDictionaryClient(IMyNoSqlSubscriber myNoSqlSubscriber)
+        public AssetsDictionaryClient(MyNoSqlReadRepository<AssetNoSqlEntity> readerAssets, MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerAssetsBrand)
         {
-            _readerAssets = new MyNoSqlReadRepository<AssetNoSqlEntity>(myNoSqlSubscriber, AssetNoSqlEntity.TableName);
-            _readerAssetsBrand = new MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity>(myNoSqlSubscriber, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
+            _readerAssets = readerAssets;
+            _readerAssetsBrand = readerAssetsBrand;
         }
 
         public IAsset GetAssetById(IAssetIdentity assetId)
