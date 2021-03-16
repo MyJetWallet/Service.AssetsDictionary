@@ -32,6 +32,7 @@ namespace Service.AssetsDictionary.MyNoSql
         public decimal MarketOrderPriceThreshold { get; set; }
         public bool IsEnabled { get; set; }
         public string MatchingEngineId { get; set; }
+        public bool KycRequiredForTrade { get; set; }
 
         public SpotInstrumentNoSqlEntity Apply(ISpotInstrument instrument)
         {
@@ -44,6 +45,7 @@ namespace Service.AssetsDictionary.MyNoSql
             MaxVolume = instrument.MaxVolume;
             MinVolume = instrument.MinVolume;
             MatchingEngineId = instrument.MatchingEngineId;
+            KycRequiredForTrade = instrument.KycRequiredForTrade;
 
             return this;
         }

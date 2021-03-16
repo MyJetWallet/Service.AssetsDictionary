@@ -1,28 +1,29 @@
 ﻿using System.Runtime.Serialization;
-using MyJetWallet.Domain;
 using MyJetWallet.Domain.Assets;
 
 namespace Service.AssetsDictionary.Domain.Models
 {
-    public interface ISpotInstrument: ISpotInstrumentIdentity
+    public interface ISpotInstrument : ISpotInstrumentIdentity
     {
         string BaseAsset { get; }
-        
+
         string QuoteAsset { get; }
-        
+
         int Accuracy { get; }
-        
+
         decimal MinVolume { get; }
-        
+
         decimal MaxVolume { get; }
-        
+
         decimal MaxOppositeVolume { get; }
-        
+
         decimal MarketOrderPriceThreshold { get; }
 
         bool IsEnabled { get; }
 
         string MatchingEngineId { get; }
+
+        bool KycRequiredForTrade { get; }
     }
 
     [DataContract]
@@ -39,6 +40,7 @@ namespace Service.AssetsDictionary.Domain.Models
         [DataMember(Order = 9)] public decimal MarketOrderPriceThreshold { get; set; }
         [DataMember(Order = 10)] public bool IsEnabled { get; set; }
         [DataMember(Order = 11)] public string MatchingEngineId { get; set; }
+        [DataMember(Order = 12)] public bool KycRequiredForTrade { get; set; }
 
         public static SpotInstrument Create(ISpotInstrument instrument)
         {
@@ -54,7 +56,8 @@ namespace Service.AssetsDictionary.Domain.Models
                 MaxOppositeVolume = instrument.MaxOppositeVolume,
                 MarketOrderPriceThreshold = instrument.MarketOrderPriceThreshold,
                 MatchingEngineId = instrument.MatchingEngineId,
-                IsEnabled = instrument.IsEnabled
+                IsEnabled = instrument.IsEnabled,
+                KycRequiredForTrade = instrument.KycRequiredForTrade
             };
         }
     }

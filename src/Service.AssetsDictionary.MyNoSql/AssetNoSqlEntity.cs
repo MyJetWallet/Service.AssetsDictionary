@@ -4,7 +4,7 @@ using Service.AssetsDictionary.Domain.Models;
 
 namespace Service.AssetsDictionary.MyNoSql
 {
-    public class AssetNoSqlEntity: MyNoSqlDbEntity, IAsset
+    public class AssetNoSqlEntity : MyNoSqlDbEntity, IAsset
     {
         public const string TableName = "myjetwallet-dictionary-assets";
 
@@ -28,6 +28,8 @@ namespace Service.AssetsDictionary.MyNoSql
         public int Accuracy { get; set; }
         public bool IsEnabled { get; set; }
         public string MatchingEngineId { get; set; }
+        public bool KycRequiredForDeposit { get; private set; }
+        public bool KycRequiredForWithdrawal { get; private set; }
 
 
         public AssetNoSqlEntity Apply(IAsset asset)
@@ -36,6 +38,8 @@ namespace Service.AssetsDictionary.MyNoSql
             Accuracy = asset.Accuracy;
             IsEnabled = asset.IsEnabled;
             MatchingEngineId = asset.MatchingEngineId;
+            KycRequiredForDeposit = asset.KycRequiredForDeposit;
+            KycRequiredForWithdrawal = asset.KycRequiredForWithdrawal;
 
             return this;
         }
