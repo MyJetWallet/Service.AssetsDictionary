@@ -18,18 +18,20 @@ namespace Service.AssetsDictionary.Client
 
         public event Action OnChanged;
 
-        public SpotInstrumentDictionaryClient(MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> readerAssets, MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerInstrumentBrand)
+        public SpotInstrumentDictionaryClient(MyNoSqlReadRepository<SpotInstrumentNoSqlEntity> readerAssets,
+            MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity> readerInstrumentBrand)
         {
             _readerAssets = readerAssets;
             _readerInstrumentBrand = readerInstrumentBrand;
 
             _readerAssets.SubscribeToUpdateEvents(list => Changed(), list => Changed());
-            _readerAssets.SubscribeToUpdateEvents(list => Changed(), list => Changed());
+            _readerInstrumentBrand.SubscribeToUpdateEvents(list => Changed(), list => Changed());
         }
 
         public ISpotInstrument GetSpotInstrumentById(ISpotInstrumentIdentity spotInstrumentId)
         {
-            return _readerAssets.Get(SpotInstrumentNoSqlEntity.GeneratePartitionKey(spotInstrumentId.BrokerId), SpotInstrumentNoSqlEntity.GenerateRowKey(spotInstrumentId.Symbol));
+            return _readerAssets.Get(SpotInstrumentNoSqlEntity.GeneratePartitionKey(spotInstrumentId.BrokerId),
+                SpotInstrumentNoSqlEntity.GenerateRowKey(spotInstrumentId.Symbol));
         }
 
         public IReadOnlyList<ISpotInstrument> GetSpotInstrumentByBroker(IJetBrokerIdentity brokerId)
@@ -39,7 +41,9 @@ namespace Service.AssetsDictionary.Client
 
         public IReadOnlyList<ISpotInstrument> GetSpotInstrumentByBrand(IJetBrandIdentity brandId)
         {
-            var brand = _readerInstrumentBrand.Get(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(brandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(brandId.BrandId));
+            var brand = _readerInstrumentBrand.Get(
+                BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(brandId.BrokerId),
+                BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(brandId.BrandId));
 
             if (brand == null)
                 return new List<ISpotInstrument>();
