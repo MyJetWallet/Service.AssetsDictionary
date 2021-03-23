@@ -29,5 +29,22 @@ namespace Service.AssetsDictionary.Client
                 .AutoActivate()
                 .SingleInstance();
         }
+
+        /// <summary>
+        /// Register interface:
+        ///   * IAssetPaymentSettingsClient
+        /// </summary>
+        public static void RegisterAssetPaymentSettingsClients(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlSubscriber)
+        {
+            var subs = new MyNoSqlReadRepository<AssetPaymentSettingsNoSqlEntity>(myNoSqlSubscriber, AssetPaymentSettingsNoSqlEntity.TableName);
+            
+            builder
+                .RegisterInstance(new AssetPaymentSettingsClient(subs))
+                .As<IAssetPaymentSettingsClient>()
+                .AutoActivate()
+                .SingleInstance();
+        }
+
+        //
     }
 }

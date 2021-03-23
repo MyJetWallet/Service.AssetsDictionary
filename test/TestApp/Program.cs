@@ -118,5 +118,10 @@ namespace TestApp
             Console.WriteLine("End");
             Console.ReadLine();
         }
+
+        static async Task SetupSettings()
+        {
+            
+        }
     }
 }
