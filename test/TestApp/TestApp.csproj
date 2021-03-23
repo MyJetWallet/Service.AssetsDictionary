@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+    <PackageReference Include="MyNoSqlServer.DataWriter" Version="1.2.23" />
     <PackageReference Include="protobuf-net.Grpc" Version="1.0.147" />
     <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.0.147" />
   </ItemGroup>
@@ -14,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Service.AssetsDictionary.Client\Service.AssetsDictionary.Client.csproj" />
     <ProjectReference Include="..\..\src\Service.AssetsDictionary.Grpc\Service.AssetsDictionary.Grpc.csproj" />
+    <ProjectReference Include="..\..\src\Service.AssetsDictionary.MyNoSql\Service.AssetsDictionary.MyNoSql.csproj" />
   </ItemGroup>
 
 </Project>

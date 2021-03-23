@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyJetWallet.Domain;
 using MyJetWallet.Domain.Assets;
@@ -8,6 +9,7 @@ using Service.AssetsDictionary.Client.Grpc;
 using Service.AssetsDictionary.Domain.Models;
 using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Grpc.Models;
+using Service.AssetsDictionary.MyNoSql;
 
 namespace TestApp
 {
@@ -19,6 +21,9 @@ namespace TestApp
 
             Console.Write("Press enter to start");
             Console.ReadLine();
+
+            //await SetupSettings(); return;
+
 
 
             var factory = new AssetsDictionaryClientFactory("http://localhost:80");
@@ -121,7 +126,45 @@ namespace TestApp
 
         static async Task SetupSettings()
         {
-            
+            var writer = new MyNoSqlServer.DataWriter.MyNoSqlServerDataWriter<AssetPaymentSettingsNoSqlEntity>(
+                () => "http://192.168.10.80:5123", AssetPaymentSettingsNoSqlEntity.TableName, true);
+
+            var list = new List<AssetPaymentSettingsNoSqlEntity>();
+
+            var brokerId = "jetwallet";
+
+            list.Add(CreateCryptoAssetPayment(brokerId, "BTC", 0));
+            //list.Add(CreateCryptoAssetPayment(brokerId, "XLM", 0));
+            list.Add(CreateCryptoAssetPayment(brokerId, "LTC", 0));
+            list.Add(CreateCryptoAssetPayment(brokerId, "XRP", 0));
+            list.Add(CreateCryptoAssetPayment(brokerId, "BCH", 0));
+            list.Add(CreateCryptoAssetPayment(brokerId, "ALGO", 0));
+            list.Add(CreateCryptoAssetPayment(brokerId, "EOS", 0));
+
+            await writer.CleanAndKeepMaxPartitions(0);
+            await writer.BulkInsertOrReplaceAsync(list);
+        }
+
+        static AssetPaymentSettingsNoSqlEntity CreateCryptoAssetPayment(string brokerId, string symbol, double minAmount)
+        {
+            var entity = AssetPaymentSettingsNoSqlEntity.Create(
+                new AssetIdentity()
+                {
+                    BrokerId = brokerId,
+                    Symbol = symbol
+                },
+                new AssetPaymentSettings()
+                {
+                    AssetSymbol = symbol,
+                    BitGoCrypto = new AssetPaymentSettings.BitGoCryptoSettings()
+                    {
+                        IsEnabledDeposit = true,
+                        IsEnabledWithdrawal = true,
+                        MinWithdrawalAmount = minAmount
+                    }
+                });
+
+            return entity;
         }
     }
 }
