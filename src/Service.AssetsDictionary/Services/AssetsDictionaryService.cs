@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MyJetWallet.Domain;
 using MyJetWallet.Domain.Assets;
 using MyNoSqlServer.Abstractions;
+using Newtonsoft.Json;
 using Service.AssetsDictionary.Domain.Models;
 using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Grpc.Models;
@@ -48,6 +49,8 @@ namespace Service.AssetsDictionary.Services
 
         public async ValueTask<Asset> UpdateAssetAsync(Asset asset)
         {
+            _logger.LogInformation("Receive UpdateAsset request: {jsonText}", JsonConvert.SerializeObject(asset));
+
             if (string.IsNullOrEmpty(asset.BrokerId)) _logger.ThrowValidationError("Cannot update asset. BrokerId cannot be empty");
             if (string.IsNullOrEmpty(asset.Symbol)) _logger.ThrowValidationError("Cannot update asset. Symbol cannot be empty");
 
