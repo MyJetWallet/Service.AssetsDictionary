@@ -28,8 +28,8 @@ namespace Service.AssetsDictionary.MyNoSql
         public int Accuracy { get; set; }
         public bool IsEnabled { get; set; }
         public string MatchingEngineId { get; set; }
-        public bool KycRequiredForDeposit { get; private set; }
-        public bool KycRequiredForWithdrawal { get; private set; }
+        public bool KycRequiredForDeposit { get; set; }
+        public bool KycRequiredForWithdrawal { get; set; }
 
 
         public AssetNoSqlEntity Apply(IAsset asset)
