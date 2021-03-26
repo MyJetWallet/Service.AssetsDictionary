@@ -189,6 +189,24 @@ namespace Service.AssetsDictionary.Services
             return result;
         }
 
+        public async Task<AllBrandMappingResponse> GetAllBrandMappingAsync()
+        {
+            var items = await _writer.GetAsync();
+
+            var response = new AllBrandMappingResponse()
+            {
+                Brands = items.Select(e => new AllBrandMappingResponse.Brand()
+                {
+                    BrokerId = e.BrokerId,
+                    BrandId = e.BrandId,
+                    AssetSymbolsList = e.AssetSymbolsList,
+                    SpotInstrumentSymbolsList = e.SpotInstrumentSymbolsList
+                }).ToList()
+            };
+
+            return response;
+        }
+
         private async ValueTask<BrandAssetsAndInstrumentsNoSqlEntity> ReadEntity(string partitionKey, string rowKey)
         {
             try

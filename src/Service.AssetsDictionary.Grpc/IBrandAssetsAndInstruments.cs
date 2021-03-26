@@ -16,6 +16,8 @@ namespace Service.AssetsDictionary.Grpc
         [OperationContract] Task<AssetDictionaryResponse<bool>> AddSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request);
         [OperationContract] Task<AssetDictionaryResponse<bool>> RemoveSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request);
         [OperationContract] Task<SpotInstrumentsListResponse> GetAllSpotInstrumentsByBrandAsync(JetBrandIdentity brandId);
+
+        [OperationContract] Task<AllBrandMappingResponse> GetAllBrandMappingAsync();
     }
 
 }
