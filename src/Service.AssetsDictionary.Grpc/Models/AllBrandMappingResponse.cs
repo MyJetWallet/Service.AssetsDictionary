@@ -8,6 +8,7 @@ namespace Service.AssetsDictionary.Grpc.Models
     {
         [DataMember(Order = 1)] public List<Brand> Brands { get; set; }
 
+        [DataContract]
         public class Brand
         {
             [DataMember(Order = 1)] public string BrokerId { get; set; }
