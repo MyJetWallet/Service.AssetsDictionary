@@ -64,14 +64,14 @@ namespace TestApp
                     IsEnabled = true,
                     MatchingEngineId = "test-BTC"
                 });
-                Console.WriteLine($"New asset: {newbtc.BrokerId}: {newbtc.Symbol} [{newbtc.IsEnabled}]");
+                Console.WriteLine($"New asset: {newbtc.Data.BrokerId}: {newbtc.Data.Symbol} [{newbtc.Data.IsEnabled}]");
             }
 
             btc = await client.GetAssetByIdAsync(new AssetIdentity() { BrokerId = "test", Symbol = "BTC" });
             btc.Value.Description = "Bitcoin";
             btc.Value.IsEnabled = !btc.Value.IsEnabled;
             var updatedBtc = await client.UpdateAssetAsync(btc.Value);
-            Console.WriteLine($"updated asset: {updatedBtc.BrokerId}: {updatedBtc.Symbol} [{updatedBtc.IsEnabled}]");
+            Console.WriteLine($"updated asset: {updatedBtc.Data.BrokerId}: {updatedBtc.Data.Symbol} [{updatedBtc.Data.IsEnabled}]");
             
             Console.WriteLine();
             Console.WriteLine("All assets:");

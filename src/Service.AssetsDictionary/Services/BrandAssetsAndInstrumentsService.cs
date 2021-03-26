@@ -34,15 +34,15 @@ namespace Service.AssetsDictionary.Services
         }
 
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public async Task AddAssetAsync(AssetIdBrandIdRequest request)
+        public async Task<AssetDictionaryResponse<bool>> AddAssetAsync(AssetIdBrandIdRequest request)
         {
-            if (request == null) _logger.ThrowValidationError($"Request cannot be null");
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
 
-            if (request.AssetId?.BrokerId != request.BrandId?.BrokerId) _logger.ThrowValidationError($"Cannot add asset {request.AssetId} to brand {request.BrandId}. Broker should be same");
+            if (request.AssetId?.BrokerId != request.BrandId?.BrokerId) return AssetDictionaryResponse<bool>.Error($"Cannot add asset {request.AssetId} to brand {request.BrandId}. Broker should be same");
 
             var asset = await _assetsDictionaryService.GetAssetByIdAsync(request.AssetId);
 
-            if (asset?.HasValue() != true) _logger.ThrowValidationError($"Cannot add asset {request.AssetId} to brand {request.BrandId}. Asset not found");
+            if (asset?.HasValue() != true) return AssetDictionaryResponse<bool>.Error($"Cannot add asset {request.AssetId} to brand {request.BrandId}. Asset not found");
 
             var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
 
@@ -66,14 +66,16 @@ namespace Service.AssetsDictionary.Services
 
                 _logger.LogInformation("Asset {AssetIdentity} added to brand {JetBrandIdentity}", request.AssetId, request.BrandId);
             }
+
+            return AssetDictionaryResponse<bool>.Success(true);
         }
 
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public async Task RemoveAssetAsync(AssetIdBrandIdRequest request)
+        public async Task<AssetDictionaryResponse<bool>> RemoveAssetAsync(AssetIdBrandIdRequest request)
         {
-            if (request == null) _logger.ThrowValidationError($"Request cannot be null");
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
 
-            if (request.AssetId == null) _logger.ThrowValidationError($"Cannot remove asset from brand {request.BrandId}. Asset cannot be null");
+            if (request.AssetId == null) return AssetDictionaryResponse<bool>.Error($"Cannot remove asset from brand {request.BrandId}. Asset cannot be null");
 
             var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
 
@@ -85,6 +87,8 @@ namespace Service.AssetsDictionary.Services
 
                 _logger.LogInformation("Asset {AssetIdentity} removed from brand {JetBrandIdentity}", request.AssetId, request.BrandId);
             }
+
+            return AssetDictionaryResponse<bool>.Success(true);
         }
 
         public async Task<AssetsListResponse> GetAllAssetsByBrandAsync(JetBrandIdentity brandId)
@@ -108,15 +112,15 @@ namespace Service.AssetsDictionary.Services
         }
 
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public async Task AddSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request)
+        public async Task<AssetDictionaryResponse<bool>> AddSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request)
         {
-            if (request == null) _logger.ThrowValidationError($"Request cannot be null");
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
 
-            if (request.SpotInstrumentId.BrokerId != request.BrandId.BrokerId) _logger.ThrowValidationError($"Cannot add spotInstrument {request.SpotInstrumentId} to brand {request.BrandId}. Broker should be same");
+            if (request.SpotInstrumentId.BrokerId != request.BrandId.BrokerId) return AssetDictionaryResponse<bool>.Error($"Cannot add spotInstrument {request.SpotInstrumentId} to brand {request.BrandId}. Broker should be same");
 
             var spotInstrument = await _spotInstrumentsDictionaryService.GetSpotInstrumentByIdAsync(request.SpotInstrumentId);
 
-            if (spotInstrument?.HasValue() != true) _logger.ThrowValidationError($"Cannot add spotInstrument {request.SpotInstrumentId} to brand {request.BrandId}. Asset not found");
+            if (spotInstrument?.HasValue() != true) return AssetDictionaryResponse<bool>.Error($"Cannot add spotInstrument {request.SpotInstrumentId} to brand {request.BrandId}. Asset not found");
 
             var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
 
@@ -140,14 +144,16 @@ namespace Service.AssetsDictionary.Services
 
                 _logger.LogInformation("SpotInstrumentId {SpotInstrumentIdentity} added to brand {JetBrandIdentity}", request.SpotInstrumentId, request.SpotInstrumentId);
             }
+
+            return AssetDictionaryResponse<bool>.Success(true);
         }
 
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public async Task RemoveSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request)
+        public async Task<AssetDictionaryResponse<bool>> RemoveSpotInstrumentAsync(SpotInstrumentIdBrandIdRequest request)
         {
-            if (request == null) _logger.ThrowValidationError($"Request cannot be null");
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
 
-            if (request.SpotInstrumentId == null) _logger.ThrowValidationError($"Cannot remove spotInstrument from brand {request.BrandId}. SpotInstrument cannot be null");
+            if (request.SpotInstrumentId == null) return AssetDictionaryResponse<bool>.Error($"Cannot remove spotInstrument from brand {request.BrandId}. SpotInstrument cannot be null");
 
             var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
 
@@ -159,6 +165,8 @@ namespace Service.AssetsDictionary.Services
 
                 _logger.LogInformation("SpotInstrumentId {SpotInstrumentIdentity} removed from brand {JetBrandIdentity}", request.SpotInstrumentId, request.BrandId);
             }
+
+            return AssetDictionaryResponse<bool>.Success(true);
         }
 
         public async Task<SpotInstrumentsListResponse> GetAllSpotInstrumentsByBrandAsync(JetBrandIdentity brandId)

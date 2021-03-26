@@ -10,8 +10,9 @@ namespace Service.AssetsDictionary.Grpc
     [ServiceContract]
     public interface ISpotInstrumentsDictionaryService
     {
-        [OperationContract] Task<SpotInstrument> CreateSpotInstrumentAsync(SpotInstrument instrument);
-        [OperationContract] Task<SpotInstrument> UpdateSpotInstrumentAsync(SpotInstrument instrument);
+        [OperationContract] Task<AssetDictionaryResponse<SpotInstrument>> CreateSpotInstrumentAsync(SpotInstrument instrument);
+        [OperationContract] Task<AssetDictionaryResponse<SpotInstrument>> UpdateSpotInstrumentAsync(SpotInstrument instrument);
+        [OperationContract] Task<AssetDictionaryResponse<SpotInstrument>> DeleteSpotInstrumentAsync(SpotInstrument instrument);
 
         [OperationContract] Task<NullableValue<SpotInstrument>> GetSpotInstrumentByIdAsync(SpotInstrumentIdentity assetId);
         [OperationContract] Task<SpotInstrumentsListResponse> GetSpotInstrumentsByBrokerAsync(JetBrokerIdentity brokerId);

@@ -11,9 +11,10 @@ namespace Service.AssetsDictionary.Grpc
     [ServiceContract]
     public interface IAssetsDictionaryService
     {
-        [OperationContract] ValueTask<Asset> CreateAssetAsync(Asset asset);
-        [OperationContract] ValueTask<Asset> UpdateAssetAsync(Asset asset);
-        
+        [OperationContract] ValueTask<AssetDictionaryResponse<Asset>> CreateAssetAsync(Asset asset);
+        [OperationContract] ValueTask<AssetDictionaryResponse<Asset>> UpdateAssetAsync(Asset asset);
+        [OperationContract] ValueTask<AssetDictionaryResponse<Asset>> DeleteAssetAsync(Asset asset);
+
         [OperationContract] ValueTask<NullableValue<Asset>> GetAssetByIdAsync(AssetIdentity assetId);
         [OperationContract] ValueTask<AssetsListResponse> GetAssetsByBrokerAsync(JetBrokerIdentity brokerId);
         [OperationContract] ValueTask<AssetsListResponse> GetAllAssetsAsync();
