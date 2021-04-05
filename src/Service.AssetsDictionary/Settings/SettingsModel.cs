@@ -10,5 +10,8 @@ namespace Service.AssetsDictionary.Settings
 
         [YamlProperty("AssetsDictionary.MyNoSqlWriterUrl")]
         public string MyNoSqlWriterUrl { get; set; }
+
+        [YamlProperty("AssetsDictionary.ZipkinUrl")]
+        public string ZipkinUrl { get; set; }
     }
 }
