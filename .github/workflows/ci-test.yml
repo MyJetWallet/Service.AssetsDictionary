@@ -61,7 +61,7 @@ jobs:
         username: ${{ secrets.ST_DOCKER_USER }}
         password: ${{ secrets.ST_DOCKER_PASSWORD }}
         path: ./publish-api
-        registry: ${{ secrets.ST_DOCKER_REGISTRY }}
+        registry: simpletrading.azurecr.io
         repository: spot/myjetwallet.service.assetsdictionary-test
         tags: latest
         add_git_labels: true
