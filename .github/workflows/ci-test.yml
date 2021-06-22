@@ -43,7 +43,7 @@ jobs:
     - name: Check Service dir
       run: ls ./publish-api
             
-    - name: Publish image
+    - name: Publish image github
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
@@ -54,3 +54,18 @@ jobs:
         tags: latest
         add_git_labels: true
         build_args: app_version=myjetwallet.service.assetsdictionary-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+
+    - name: Publish image ST
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.ST_DOCKER_USER }}
+        password: ${{ secrets.ST_DOCKER_PASSWORD }}
+        path: ./publish-api
+        registry: ${{ secrets.ST_DOCKER_REGISTRY }}
+        repository: spot/myjetwallet.service.assetsdictionary-test
+        tags: latest
+        add_git_labels: true
+        build_args: app_version=myjetwallet.service.assetsdictionary-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+
+    
+
