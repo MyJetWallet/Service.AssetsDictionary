@@ -17,11 +17,6 @@ jobs:
       with:
         dotnet-version: 5.0.101
         
-    - name: ci-test
-      uses: MyJetWallet/ci-actions@master
-      with:
-        name: Asset
-
     - name: Get current time
       uses: MyJetTools/get-current-time@v2
       id: current-time
@@ -29,16 +24,21 @@ jobs:
         format: YYYY-MM-DD HH:mm:ss
         utcOffset: "+00:00"
 
-    - name: Build
-      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.${{ github.run_number }}
-    - name: Test
-      run: dotnet test --no-build --configuration Release
-    - name: ls
-      run: ls
+#    - name: Build
+#      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.${{ github.run_number }}
+#    - name: Test
+#      run: dotnet test --no-build --configuration Release
+#    - name: ls
+#      run: ls
 
-    - name: Publish Service
-      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
+#    - name: Publish Service
+#      run: dotnet publish --no-build ./src/Service.AssetsDictionary/Service.AssetsDictionary.csproj --configuration Release --output ./publish-api
 
+    - name: ci-test
+      uses: MyJetWallet/ci-actions@master
+      with:
+        name: Asset
+        
     - name: Check Service dir
       run: ls ./publish-api
             
