@@ -16,6 +16,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.101
+        
+    - name: ci-test
+      uses: MyJetWallet/ci-actions@master
+      with:
+        name: Asset
 
     - name: Get current time
       uses: MyJetTools/get-current-time@v2
