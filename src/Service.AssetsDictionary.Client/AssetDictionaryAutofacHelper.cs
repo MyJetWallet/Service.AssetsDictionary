@@ -10,13 +10,15 @@ namespace Service.AssetsDictionary.Client
         /// Register interfaces:
         ///   * IAssetsDictionaryClient
         ///   * ISpotInstrumentDictionaryClient
+        ///   * IMarketReferenceDictionaryClient
         /// </summary>
         public static void RegisterAssetsDictionaryClients(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlSubscriber)
         {
             var assetSubs = new MyNoSqlReadRepository<AssetNoSqlEntity>(myNoSqlSubscriber, AssetNoSqlEntity.TableName);
             var brandSubs = new MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity>(myNoSqlSubscriber, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
             var instrumentSubs = new MyNoSqlReadRepository<SpotInstrumentNoSqlEntity>(myNoSqlSubscriber, SpotInstrumentNoSqlEntity.TableName);
-            
+            var referenceSubs = new MyNoSqlReadRepository<MarketReferenceNoSqlEntity>(myNoSqlSubscriber, MarketReferenceNoSqlEntity.TableName);
+
             builder
                 .RegisterInstance(new AssetsDictionaryClient(assetSubs, brandSubs))
                 .As<IAssetsDictionaryClient>()
@@ -26,6 +28,12 @@ namespace Service.AssetsDictionary.Client
             builder
                 .RegisterInstance(new SpotInstrumentDictionaryClient(instrumentSubs, brandSubs))
                 .As<ISpotInstrumentDictionaryClient>()
+                .AutoActivate()
+                .SingleInstance();
+            
+            builder
+                .RegisterInstance(new MarketReferenceDictionaryClient(referenceSubs, brandSubs))
+                .As<IMarketReferenceDictionaryClient>()
                 .AutoActivate()
                 .SingleInstance();
         }
@@ -41,22 +49,6 @@ namespace Service.AssetsDictionary.Client
             builder
                 .RegisterInstance(new AssetPaymentSettingsClient(subs))
                 .As<IAssetPaymentSettingsClient>()
-                .AutoActivate()
-                .SingleInstance();
-        }
-
-        /// <summary>
-        /// Register interface:
-        ///   * IMarketReferenceDictionaryClient
-        /// </summary>
-        public static void RegisterMarketReferenceClients(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlSubscriber)
-        {
-            var subs = new MyNoSqlReadRepository<MarketReferenceNoSqlEntity>(myNoSqlSubscriber, MarketReferenceNoSqlEntity.TableName);
-            var brandSubs = new MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity>(myNoSqlSubscriber, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
-
-            builder
-                .RegisterInstance(new MarketReferenceDictionaryClient(subs, brandSubs))
-                .As<IMarketReferenceDictionaryClient>()
                 .AutoActivate()
                 .SingleInstance();
         }
