@@ -24,5 +24,7 @@ namespace Service.AssetsDictionary.Client.Grpc
         public IAssetsDictionaryService GetAssetsDictionaryService() => _channel.CreateGrpcService<IAssetsDictionaryService>();
         public ISpotInstrumentsDictionaryService GetSpotInstrumentsDictionaryService() => _channel.CreateGrpcService<ISpotInstrumentsDictionaryService>();
         public IBrandAssetsAndInstrumentsService GetBrandAssetsAndInstrumentsService() => _channel.CreateGrpcService<IBrandAssetsAndInstrumentsService>();
+        public IMarketReferencesDictionaryService GetMarketReferenceDictionaryService() =>
+            _channel.CreateGrpcService<IMarketReferencesDictionaryService>();
     }
 }
