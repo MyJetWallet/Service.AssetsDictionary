@@ -78,7 +78,7 @@ namespace Service.AssetsDictionary
         {
             builder.RegisterModule<SettingsModule>();
             builder.RegisterModule<ServiceModule>();
-            builder.RegisterModule(new MyNoSqlModule(Program.ReloadedSettings(e=>e.MyNoSqlWriterUrl)));
+            builder.RegisterModule<MyNoSqlModule>();
         }
 
     }

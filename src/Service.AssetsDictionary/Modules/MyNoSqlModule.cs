@@ -1,34 +1,18 @@
-﻿using System;
-using Autofac;
-using MyNoSqlServer.Abstractions;
+﻿using Autofac;
+using MyJetWallet.Sdk.NoSql;
 using Service.AssetsDictionary.MyNoSql;
 
 namespace Service.AssetsDictionary.Modules
 {
     public class MyNoSqlModule : Module
     {
-        private readonly Func<string> _myNoSqlServerWriterUrl;
-
-        public MyNoSqlModule(Func<string> myNoSqlServerWriterUrl)
-        {
-            _myNoSqlServerWriterUrl = myNoSqlServerWriterUrl;
-        }
-
         protected override void Load(ContainerBuilder builder)
         {
-            RegisterMyNoSqlWriter<AssetNoSqlEntity>(builder, AssetNoSqlEntity.TableName);
-            RegisterMyNoSqlWriter<SpotInstrumentNoSqlEntity>(builder, SpotInstrumentNoSqlEntity.TableName);
-            RegisterMyNoSqlWriter<BrandAssetsAndInstrumentsNoSqlEntity>(builder, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
-            RegisterMyNoSqlWriter<MarketReferenceNoSqlEntity>(builder, MarketReferenceNoSqlEntity.TableName);
+            builder.RegisterMyNoSqlWriter<AssetNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl), AssetNoSqlEntity.TableName);
+            builder.RegisterMyNoSqlWriter<SpotInstrumentNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl), SpotInstrumentNoSqlEntity.TableName);
+            builder.RegisterMyNoSqlWriter<BrandAssetsAndInstrumentsNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl), BrandAssetsAndInstrumentsNoSqlEntity.TableName);
+            builder.RegisterMyNoSqlWriter<MarketReferenceNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl), MarketReferenceNoSqlEntity.TableName);
         }
 
-        private void RegisterMyNoSqlWriter<TEntity>(ContainerBuilder builder, string table)
-            where TEntity : IMyNoSqlDbEntity, new()
-        {
-            builder.Register(ctx => new MyNoSqlServer.DataWriter.MyNoSqlServerDataWriter<TEntity>(_myNoSqlServerWriterUrl, table,true))
-                .As<IMyNoSqlServerDataWriter<TEntity>>()
-                .SingleInstance();
-
-        }
     }
 }
