@@ -216,6 +216,8 @@ namespace Service.AssetsDictionary.Services
                     MarketReferenceIdsList = new List<string>()
                 });
             }
+            
+            entity.MarketReferenceIdsList ??= new List<string>();
 
             if (!entity.MarketReferenceIdsList.Contains(request.ReferenceId.Id))
             {
