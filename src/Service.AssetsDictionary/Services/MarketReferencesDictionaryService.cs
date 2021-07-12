@@ -60,19 +60,7 @@ namespace Service.AssetsDictionary.Services
                 return AssetDictionaryResponse<MarketReference>.Error("Cannot update reference. Asset do not found");
                 throw new Exception();
             }
-
-            // var baseAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.BaseAsset });
-            // var quoteAsset = await _assetsDictionary.GetAssetByIdAsync(new AssetIdentity() { BrokerId = instrument.BrokerId, Symbol = instrument.QuoteAsset });
-            //
-            // if (!baseAsset.HasValue()) return AssetDictionaryResponse<MarketReference>.Error("Cannot create instrument. BaseAsset do not found");
-            // if (!quoteAsset.HasValue()) return AssetDictionaryResponse<MarketReference>.Error("Cannot create instrument. QuoteAsset do not found");
-            //
-            // if (instrument.IsEnabled)
-            // {
-            //     if (!baseAsset.Value.IsEnabled) return AssetDictionaryResponse<MarketReference>.Error("Cannot create instrument. BaseAsset is disabled");
-            //     if (!quoteAsset.Value.IsEnabled) return AssetDictionaryResponse<MarketReference>.Error("Cannot create instrument. QuoteAsset is disabled");
-            // }
-
+            
             entity.Apply(reference);
 
             await _writer.InsertOrReplaceAsync(entity);
