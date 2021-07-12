@@ -19,17 +19,20 @@ namespace Service.AssetsDictionary.Services
         private readonly IMyNoSqlServerDataWriter<BrandAssetsAndInstrumentsNoSqlEntity> _writer;
         private readonly IAssetsDictionaryService _assetsDictionaryService;
         private readonly ISpotInstrumentsDictionaryService _spotInstrumentsDictionaryService;
+        private readonly IMarketReferencesDictionaryService _marketReferencesDictionaryService;
         private readonly ILogger<BrandAssetsAndInstrumentsService> _logger;
 
         public BrandAssetsAndInstrumentsService(
             IMyNoSqlServerDataWriter<BrandAssetsAndInstrumentsNoSqlEntity> writer,
             IAssetsDictionaryService assetsDictionaryService,
             ISpotInstrumentsDictionaryService spotInstrumentsDictionaryService,
+            IMarketReferencesDictionaryService marketReferencesDictionaryService,
             ILogger<BrandAssetsAndInstrumentsService> logger)
         {
             _writer = writer;
             _assetsDictionaryService = assetsDictionaryService;
             _spotInstrumentsDictionaryService = spotInstrumentsDictionaryService;
+            _marketReferencesDictionaryService = marketReferencesDictionaryService;
             _logger = logger;
         }
 
@@ -189,6 +192,83 @@ namespace Service.AssetsDictionary.Services
             return result;
         }
 
+        public async Task<AssetDictionaryResponse<bool>> AddMarketReferenceAsync(MarketReferenceIdBrandIdRequest request)
+        {
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
+
+            if (request.ReferenceId.BrokerId != request.BrandId.BrokerId) return AssetDictionaryResponse<bool>.Error($"Cannot add spotInstrument {request.ReferenceId} to brand {request.BrandId}. Broker should be same");
+
+            var marketReference = await _marketReferencesDictionaryService.GetMarketReferenceByIdAsync(request.ReferenceId);
+
+            if (marketReference?.HasValue() != true) return AssetDictionaryResponse<bool>.Error($"Cannot add market reference {request.ReferenceId} to brand {request.BrandId}. Asset not found");
+
+            var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
+
+            // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
+            if (entity == null)
+            {
+                entity = BrandAssetsAndInstrumentsNoSqlEntity.Create(new BrandAssetsAndInstruments()
+                {
+                    BrokerId = request.BrandId.BrokerId,
+                    BrandId = request.BrandId.BrandId,
+                    AssetSymbolsList = new List<string>(),
+                    SpotInstrumentSymbolsList = new List<string>(),
+                    MarketReferenceIdsList = new List<string>()
+                });
+            }
+
+            if (!entity.MarketReferenceIdsList.Contains(request.ReferenceId.Id))
+            {
+                entity.MarketReferenceIdsList.Add(request.ReferenceId.Id);
+
+                await _writer.InsertOrReplaceAsync(entity);
+
+                _logger.LogInformation("MarketReferenceId {SpotInstrumentIdentity} added to brand {JetBrandIdentity}", request.ReferenceId, request.ReferenceId);
+            }
+
+            return AssetDictionaryResponse<bool>.Success(true);        
+        }
+
+        public async Task<AssetDictionaryResponse<bool>> RemoveMarketReferenceAsync(MarketReferenceIdBrandIdRequest request)
+        {
+            if (request == null) return AssetDictionaryResponse<bool>.Error($"Request cannot be null");
+
+            if (request.ReferenceId == null) return AssetDictionaryResponse<bool>.Error($"Cannot remove market reference from brand {request.BrandId}. MarketReference cannot be null");
+
+            var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(request.BrandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(request.BrandId.BrandId));
+
+            if (entity != null)
+            {
+                entity.SpotInstrumentSymbolsList.Remove(request.ReferenceId.Id);
+
+                await _writer.InsertOrReplaceAsync(entity);
+
+                _logger.LogInformation("MarketReferenceId {SpotInstrumentIdentity} removed from brand {JetBrandIdentity}", request.ReferenceId, request.BrandId);
+            }
+
+            return AssetDictionaryResponse<bool>.Success(true);        
+        }
+
+        public async Task<MarketReferenceListResponse> GetAllMarketReferencesByBrandAsync(JetBrandIdentity brandId)
+        {
+            if (brandId == null)
+                return new MarketReferenceListResponse();
+
+            var entity = await ReadEntity(BrandAssetsAndInstrumentsNoSqlEntity.GeneratePartitionKey(brandId.BrokerId), BrandAssetsAndInstrumentsNoSqlEntity.GenerateRowKey(brandId.BrandId));
+
+            if (entity == null)
+                return new MarketReferenceListResponse();
+
+            var references = await _marketReferencesDictionaryService.GetMarketReferencesByBrokerAsync(new JetBrokerIdentity(){BrokerId = brandId.BrokerId});
+
+            var result = new MarketReferenceListResponse()
+            {
+                References = references.References.Where(i => entity.SpotInstrumentSymbolsList.Contains(i.Id)).ToList()
+            };
+
+            return result;        
+        }
+
         public async Task<AllBrandMappingResponse> GetAllBrandMappingAsync()
         {
             var items = await _writer.GetAsync();
@@ -200,7 +280,8 @@ namespace Service.AssetsDictionary.Services
                     BrokerId = e.BrokerId,
                     BrandId = e.BrandId,
                     AssetSymbolsList = e.AssetSymbolsList,
-                    SpotInstrumentSymbolsList = e.SpotInstrumentSymbolsList
+                    SpotInstrumentSymbolsList = e.SpotInstrumentSymbolsList,
+                    MarketReferenceIdsList = e.MarketReferenceIdsList
                 }).ToList()
             };
 

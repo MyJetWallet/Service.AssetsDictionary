@@ -45,6 +45,20 @@ namespace Service.AssetsDictionary.Client
                 .SingleInstance();
         }
 
-        //
+        /// <summary>
+        /// Register interface:
+        ///   * IMarketReferenceDictionaryClient
+        /// </summary>
+        public static void RegisterMarketReferenceClients(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlSubscriber)
+        {
+            var subs = new MyNoSqlReadRepository<MarketReferenceNoSqlEntity>(myNoSqlSubscriber, MarketReferenceNoSqlEntity.TableName);
+            var brandSubs = new MyNoSqlReadRepository<BrandAssetsAndInstrumentsNoSqlEntity>(myNoSqlSubscriber, BrandAssetsAndInstrumentsNoSqlEntity.TableName);
+
+            builder
+                .RegisterInstance(new MarketReferenceDictionaryClient(subs, brandSubs))
+                .As<IMarketReferenceDictionaryClient>()
+                .AutoActivate()
+                .SingleInstance();
+        }
     }
 }

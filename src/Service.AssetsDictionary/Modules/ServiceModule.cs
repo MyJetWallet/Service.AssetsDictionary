@@ -16,6 +16,9 @@ namespace Service.AssetsDictionary.Modules
 
             builder.RegisterType<BrandAssetsAndInstrumentsService>()
                 .As<IBrandAssetsAndInstrumentsService>();
+
+            builder.RegisterType<MarketReferencesDictionaryService>()
+                .As<IMarketReferencesDictionaryService>();
         }
     }
 }

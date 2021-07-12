@@ -67,6 +67,7 @@ namespace Service.AssetsDictionary
                 endpoints.MapGrpcSchema<AssetsDictionaryService, IAssetsDictionaryService>();
                 endpoints.MapGrpcSchema<SpotInstrumentsDictionaryService, ISpotInstrumentsDictionaryService>();
                 endpoints.MapGrpcSchema<BrandAssetsAndInstrumentsService, IBrandAssetsAndInstrumentsService>();
+                endpoints.MapGrpcSchema<MarketReferencesDictionaryService, IMarketReferencesDictionaryService>();
 
                 endpoints.MapGrpcSchemaRegistry();
                 

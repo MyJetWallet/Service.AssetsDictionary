@@ -27,15 +27,19 @@ namespace Service.AssetsDictionary.MyNoSql
         public string BrandId { get; set; }
         public List<string> AssetSymbolsList { get; set; }
         public List<string> SpotInstrumentSymbolsList { get; set; }
+        public List<string> MarketReferenceIdsList { get; set; }
 
         IReadOnlyList<string> IBrandAssetsAndInstruments.AssetSymbolsList => AssetSymbolsList;
 
         IReadOnlyList<string> IBrandAssetsAndInstruments.SpotInstrumentSymbolsList => SpotInstrumentSymbolsList;
 
+        IReadOnlyList<string> IBrandAssetsAndInstruments.MarketReferenceIdsList => MarketReferenceIdsList;
+
         public BrandAssetsAndInstrumentsNoSqlEntity Apply(IBrandAssetsAndInstruments data)
         {
             AssetSymbolsList = data.AssetSymbolsList.ToList();
             SpotInstrumentSymbolsList = data.AssetSymbolsList.ToList();
+            MarketReferenceIdsList = data.MarketReferenceIdsList.ToList();
             return this;
         }
     }

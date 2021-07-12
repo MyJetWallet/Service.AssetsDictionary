@@ -15,6 +15,7 @@ namespace Service.AssetsDictionary.Grpc.Models
             [DataMember(Order = 2)] public string BrandId { get; set; }
             [DataMember(Order = 3)] public List<string> AssetSymbolsList { get; set; }
             [DataMember(Order = 4)] public List<string> SpotInstrumentSymbolsList { get; set; }
+            [DataMember(Order = 5)] public List<string> MarketReferenceIdsList { get; set; }
         }
     }
 }
