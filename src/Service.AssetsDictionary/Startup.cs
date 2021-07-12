@@ -1,13 +1,10 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Autofac;
-using Grpc.Core;
-using Grpc.Core.Interceptors;
 using MyJetWallet.Sdk.GrpcMetrics;
 using MyJetWallet.Sdk.GrpcSchema;
 using MyJetWallet.Sdk.Service;
@@ -16,10 +13,8 @@ using ProtoBuf.Grpc.Server;
 using Service.AssetsDictionary.Grpc;
 using Service.AssetsDictionary.Modules;
 using Service.AssetsDictionary.Services;
-using Service.AssetsDictionary.Settings;
 using SimpleTrading.BaseMetrics;
 using SimpleTrading.ServiceStatusReporterConnector;
-using SimpleTrading.SettingsReader;
 
 namespace Service.AssetsDictionary
 {
@@ -83,12 +78,8 @@ namespace Service.AssetsDictionary
         {
             builder.RegisterModule<SettingsModule>();
             builder.RegisterModule<ServiceModule>();
-            builder.RegisterModule(new MyNoSqlModule(() => GetSettings().MyNoSqlWriterUrl));
+            builder.RegisterModule(new MyNoSqlModule(Program.ReloadedSettings(e=>e.MyNoSqlWriterUrl)));
         }
 
-        private SettingsModel GetSettings()
-        {
-            return SettingsReader.ReadSettings<SettingsModel>(Program.SettingsFileName);
-        }
     }
 }
