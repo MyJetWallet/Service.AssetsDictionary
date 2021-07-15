@@ -24,6 +24,8 @@ namespace Service.AssetsDictionary.Domain.Models
         string MatchingEngineId { get; }
 
         bool KycRequiredForTrade { get; }
+        
+        string IconUrl { get; }
     }
 
     [DataContract]
@@ -41,6 +43,8 @@ namespace Service.AssetsDictionary.Domain.Models
         [DataMember(Order = 10)] public bool IsEnabled { get; set; }
         [DataMember(Order = 11)] public string MatchingEngineId { get; set; }
         [DataMember(Order = 12)] public bool KycRequiredForTrade { get; set; }
+        
+        [DataMember(Order = 13)] public string IconUrl { get; set; }
 
         public static SpotInstrument Create(ISpotInstrument instrument)
         {
@@ -57,7 +61,8 @@ namespace Service.AssetsDictionary.Domain.Models
                 MarketOrderPriceThreshold = instrument.MarketOrderPriceThreshold,
                 MatchingEngineId = instrument.MatchingEngineId,
                 IsEnabled = instrument.IsEnabled,
-                KycRequiredForTrade = instrument.KycRequiredForTrade
+                KycRequiredForTrade = instrument.KycRequiredForTrade,
+                IconUrl = instrument.IconUrl
             };
         }
     }

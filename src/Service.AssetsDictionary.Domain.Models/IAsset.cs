@@ -11,6 +11,8 @@ namespace Service.AssetsDictionary.Domain.Models
         string MatchingEngineId { get; }
         bool KycRequiredForDeposit { get; }
         bool KycRequiredForWithdrawal { get; }
+        string IconUrl { get; }
+
     }
 
     [DataContract]
@@ -24,6 +26,8 @@ namespace Service.AssetsDictionary.Domain.Models
         [DataMember(Order = 6)] public string MatchingEngineId { get; set; }
         [DataMember(Order = 7)] public bool KycRequiredForDeposit { get; set; }
         [DataMember(Order = 8)] public bool KycRequiredForWithdrawal { get; set; }
+        
+        [DataMember(Order = 9)] public string IconUrl { get; set; }
 
         public static Asset Create(IAsset asset)
         {
@@ -40,6 +44,7 @@ namespace Service.AssetsDictionary.Domain.Models
             MatchingEngineId = asset.MatchingEngineId;
             KycRequiredForDeposit = asset.KycRequiredForDeposit;
             KycRequiredForWithdrawal = asset.KycRequiredForWithdrawal;
+            IconUrl = asset.IconUrl;
             return this;
         }
     }

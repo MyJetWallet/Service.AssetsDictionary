@@ -30,6 +30,7 @@ namespace Service.AssetsDictionary.MyNoSql
         public string MatchingEngineId { get; set; }
         public bool KycRequiredForDeposit { get; set; }
         public bool KycRequiredForWithdrawal { get; set; }
+        public string IconUrl { get; set; }
 
 
         public AssetNoSqlEntity Apply(IAsset asset)
@@ -40,6 +41,7 @@ namespace Service.AssetsDictionary.MyNoSql
             MatchingEngineId = asset.MatchingEngineId;
             KycRequiredForDeposit = asset.KycRequiredForDeposit;
             KycRequiredForWithdrawal = asset.KycRequiredForWithdrawal;
+            IconUrl = asset.IconUrl;
 
             return this;
         }

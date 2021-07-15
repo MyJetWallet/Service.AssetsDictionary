@@ -33,6 +33,7 @@ namespace Service.AssetsDictionary.MyNoSql
         public bool IsEnabled { get; set; }
         public string MatchingEngineId { get; set; }
         public bool KycRequiredForTrade { get; set; }
+        public string IconUrl { get; set; }
 
         public SpotInstrumentNoSqlEntity Apply(ISpotInstrument instrument)
         {
@@ -46,6 +47,7 @@ namespace Service.AssetsDictionary.MyNoSql
             MinVolume = instrument.MinVolume;
             MatchingEngineId = instrument.MatchingEngineId;
             KycRequiredForTrade = instrument.KycRequiredForTrade;
+            IconUrl = IconUrl;
 
             return this;
         }
