@@ -47,7 +47,7 @@ namespace Service.AssetsDictionary.MyNoSql
             MinVolume = instrument.MinVolume;
             MatchingEngineId = instrument.MatchingEngineId;
             KycRequiredForTrade = instrument.KycRequiredForTrade;
-            IconUrl = IconUrl;
+            IconUrl = instrument.IconUrl;
 
             return this;
         }
