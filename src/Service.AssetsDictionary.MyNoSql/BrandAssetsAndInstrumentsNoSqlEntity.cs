@@ -37,9 +37,9 @@ namespace Service.AssetsDictionary.MyNoSql
 
         public BrandAssetsAndInstrumentsNoSqlEntity Apply(IBrandAssetsAndInstruments data)
         {
-            AssetSymbolsList = data.AssetSymbolsList.ToList();
-            SpotInstrumentSymbolsList = data.AssetSymbolsList.ToList();
-            MarketReferenceIdsList = data.MarketReferenceIdsList.ToList();
+            AssetSymbolsList = data.AssetSymbolsList?.ToList() ?? new List<string>();
+            SpotInstrumentSymbolsList = data.AssetSymbolsList?.ToList() ?? new List<string>();
+            MarketReferenceIdsList = data.MarketReferenceIdsList?.ToList() ?? new List<string>();
             return this;
         }
     }
